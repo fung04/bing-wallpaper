@@ -1,0 +1,247 @@
+<script lang="ts">
+	const COUNTRIES = [
+		{ label: 'United States', code: 'US-en', display: 'US — English' },
+		{ label: 'United Kingdom', code: 'GB-en', display: 'GB — English' },
+		{ label: 'Canada (English)', code: 'CA-en', display: 'CA — English' },
+		{ label: 'Canada (French)', code: 'CA-fr', display: 'CA — Français' },
+		{ label: 'Germany', code: 'DE-de', display: 'DE — Deutsch' },
+		{ label: 'France', code: 'FR-fr', display: 'FR — Français' },
+		{ label: 'Italy', code: 'IT-it', display: 'IT — Italiano' },
+		{ label: 'Spain', code: 'ES-es', display: 'ES — Español' },
+		{ label: 'Brazil', code: 'BR-pt', display: 'BR — Português' },
+		{ label: 'India', code: 'IN-en', display: 'IN — English' },
+		{ label: 'Japan', code: 'JP-ja', display: 'JP — 日本語' },
+		{ label: 'China', code: 'CN-zh', display: 'CN — 中文' },
+		{ label: 'Rest of World', code: 'ROW-en', display: 'World — English' }
+	];
+
+	const RESOLUTION = [
+		{ label: '1920x1080', code: '1920x1080' },
+		{ label: '2560x1440', code: '2560x1440' },
+		{ label: '3840x2160', code: '3840x2160' }
+	];
+
+	const BASE = 'https://bing.npanuhin.me';
+	let intervalSec = $state(30);
+	let totalImages = $state(30);
+	let selectedCountries = $state(['CN-zh', 'ROW-en']);
+	let selectedResolution = $state('1920x1080');
+
+	function handleCountryChange(country: string) {
+		if (selectedCountries.includes(country)) {
+			selectedCountries = selectedCountries.filter((t) => t !== country);
+		} else {
+			selectedCountries = [...selectedCountries, country];
+		}
+		console.log($state.snapshot(selectedCountries));
+	}
+
+	function incrementInterval() {
+		intervalSec += 1;
+	}
+	function decrementInterval() {
+		if (intervalSec > 1) intervalSec -= 1;
+	}
+	function incrementTotalImages() {
+		totalImages += 1;
+	}
+	function decrementTotalImages() {
+		if (totalImages > 1) totalImages -= 1;
+	}
+
+	function handleSave() {}
+</script>
+
+<div class="page-container">
+	<div class="config-card">
+		<header>
+			<div class="header-content">
+				<h2>Wallpaper Settings</h2>
+				<p>Customize your viewing experience</p>
+			</div>
+		</header>
+
+		<div class="config-sections">
+			<!-- Picture resolution -->
+			<section class="section-card">
+				<div class="section-header">
+					<h3>Country</h3>
+				</div>
+				{#each COUNTRIES as country}
+					<label>
+						<input
+							type="checkbox"
+							checked={selectedCountries.includes(country.code)}
+							onchange={() => handleCountryChange(country.code)}
+						/>
+						{country.display}
+					</label><br />
+				{/each}
+			</section>
+			<section class="section-card">
+				<div class="section-header">
+					<h3>Resolution</h3>
+				</div>
+				{#each RESOLUTION as resolution}
+					{#if resolution.code == selectedResolution}
+						<button class="btn btn-primary" value={resolution.code}>
+							{resolution.label}
+						</button>
+					{:else}
+						<button class="btn btn-secondary" value={resolution.code}>
+							{resolution.label}
+						</button>
+					{/if}
+				{/each}
+			</section>
+			<section class="section-card">
+				<div class="section-header">
+					<h3>Interval</h3>
+				</div>
+				<div>
+					<button class="btn btn-primary" onclick={incrementInterval}> + </button>
+					<input value={intervalSec} />
+					<button class="btn btn-primary" onclick={decrementInterval}> - </button>
+				</div>
+			</section>
+			<section class="section-card">
+				<div class="section-header">
+					<h3>Total Images</h3>
+				</div>
+				<div>
+					<button class="btn btn-primary" onclick={incrementTotalImages}> + </button>
+					<input value={totalImages} />
+					<button class="btn btn-primary" onclick={decrementTotalImages}> - </button>
+				</div>
+			</section>
+		</div>
+
+		<div class="actions">
+			<button class="btn btn-secondary">
+				<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+					<path
+						d="M6 14H3.33333C2.97971 14 2.64057 13.8595 2.39052 13.6095C2.14048 13.3594 2 13.0203 2 12.6667V3.33333C2 2.97971 2.14048 2.64057 2.39052 2.39052C2.64057 2.14048 2.97971 2 3.33333 2H6M10.6667 11.3333L14 8M14 8L10.6667 4.66667M14 8H6"
+						stroke="currentColor"
+						stroke-width="1.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+				</svg>
+				Logout
+			</button>
+			<button class="btn btn-primary" onclick={handleSave}>
+				<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+					<path
+						d="M8 2L3 6L8 10L13 6L8 2Z"
+						stroke="currentColor"
+						stroke-width="1.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+					<path
+						d="M3 10L8 14L13 10"
+						stroke="currentColor"
+						stroke-width="1.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+				</svg>
+				Start Slideshow
+			</button>
+		</div>
+	</div>
+</div>
+
+<style>
+	.page-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-height: 100vh;
+		background: var(--bg-dark);
+		padding: var(--spacing-3xl);
+	}
+
+	.config-card {
+		width: 100%;
+		max-width: 600px;
+		background: var(--card-bg);
+		backdrop-filter: blur(20px);
+		border-radius: var(--radius-xl);
+		border: 1px solid var(--card-border);
+		overflow: hidden;
+		box-shadow:
+			var(--shadow-lg),
+			0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+	}
+	header {
+		padding: var(--spacing-3xl) var(--spacing-3xl) var(--spacing-2xl);
+		background: var(--gradient-purple-light);
+		border-bottom: 1px solid var(--border-light);
+	}
+
+	.header-content h2 {
+		margin: 0 0 var(--spacing-sm);
+		font-size: var(--text-2xl);
+		font-weight: 700;
+		background: var(--gradient-text);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		letter-spacing: -0.02em;
+	}
+
+	.header-content p {
+		margin: 0;
+		color: var(--text-label);
+		font-size: var(--text-md);
+	}
+
+	.config-sections {
+		padding: var(--spacing-2xl);
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-xl);
+	}
+
+	.section-card {
+		background: var(--section-bg);
+		border: 1px solid var(--section-border);
+		border-radius: var(--radius-lg);
+		padding: var(--spacing-2xl);
+		transition: all var(--transition-smooth);
+	}
+
+	.section-card:hover {
+		background: var(--section-bg-hover);
+		border-color: var(--section-border-hover);
+	}
+
+	.section-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: var(--spacing-lg);
+	}
+
+	.section-header h3 {
+		margin: 0;
+		font-size: var(--text-base);
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: var(--text-tertiary);
+	}
+	.actions {
+		display: flex;
+		gap: var(--spacing-lg);
+		padding: var(--spacing-2xl);
+		background: rgba(0, 0, 0, 0.2);
+		border-top: 1px solid var(--border-light);
+		justify-content: space-between;
+	}
+	input {
+		background-color: var(--bg-dark);
+		color: var(--text-primary);
+	}
+</style>
