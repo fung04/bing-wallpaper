@@ -313,7 +313,7 @@
 							<span class="locale-code">{country}</span>
 						</button>
 					{/each}
-					<button class="dropdown-item" onclick={() => goto('/')}>Edit</button>
+					<button class="dropdown-item" onclick={() => goto(resolve('/'))}>Edit</button>
 				</div>
 			</div>
 
