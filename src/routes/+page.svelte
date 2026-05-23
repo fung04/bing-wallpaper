@@ -45,6 +45,7 @@
 					selectedResolution = config.selectedResolution;
 					intervalSec = config.intervalSec;
 					totalImages = config.totalImages;
+					goto(resolve('/show'));
 				} catch (e) {
 					console.error('Failed to parse stored config', e);
 				}
