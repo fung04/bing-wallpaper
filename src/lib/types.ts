@@ -3,4 +3,5 @@ export interface AppConfig {
     selectedResolution: string;
     intervalSec: number;
     totalImages: number;
+    isEditting: boolean;
 }

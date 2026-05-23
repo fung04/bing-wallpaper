@@ -45,7 +45,11 @@
 					selectedResolution = config.selectedResolution;
 					intervalSec = config.intervalSec;
 					totalImages = config.totalImages;
-					goto(resolve('/show'));
+					if (config.isEditting) {
+						goto(resolve('/'));
+					} else {
+						goto(resolve('/show'));
+					}
 				} catch (e) {
 					console.error('Failed to parse stored config', e);
 				}
@@ -249,7 +253,7 @@
 								−
 							</button>
 							<input
-								type='number'
+								type="number"
 								min="1"
 								max="100"
 								class="h-10 font-bold text-gray-800 text-base w-full border-none bg-transparent text-center outline-none"

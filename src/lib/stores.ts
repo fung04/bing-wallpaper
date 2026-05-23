@@ -26,4 +26,5 @@ export const appConfig = persistentStore<AppConfig>('appConfig', {
     selectedResolution: '_1920x1080',
     intervalSec: 30,
     totalImages: 30,
+    isEditting: false,
 });

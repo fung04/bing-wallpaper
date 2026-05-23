@@ -81,16 +81,17 @@
 			const now: Date = new Date();
 			const year: number = now.getFullYear();
 			const startOfYear: Date = new Date(year, 0, 1);
-			const diffInDays: number = Math.floor((now.getTime() - startOfYear.getTime()) / (1000 * 60 * 60 * 24));
+			const diffInDays: number = Math.floor(
+				(now.getTime() - startOfYear.getTime()) / (1000 * 60 * 60 * 24)
+			);
 			let requiredYear: number = 1;
-			const totalImages = ($appConfig.totalImages as number);
-			
+			const totalImages = $appConfig.totalImages as number;
+
 			if (diffInDays != totalImages) {
-				if (diffInDays > 365){
+				if (diffInDays > 365) {
 					requiredYear = Math.floor(diffInDays / 365);
-				}
-				else {
-					requiredYear = 2
+				} else {
+					requiredYear = 2;
 				}
 			}
 
@@ -247,6 +248,12 @@
 			startSlideshow();
 		}
 	}
+
+	function editConifg() {
+		stopSlideshow();
+		$appConfig.isEditting = true;
+		goto(resolve('/'));
+	}
 </script>
 
 <svelte:document
@@ -313,7 +320,7 @@
 							<span class="locale-code">{country}</span>
 						</button>
 					{/each}
-					<button class="dropdown-item" onclick={() => goto(resolve('/'))}>Edit</button>
+					<button class="dropdown-item" onclick={editConifg}>Edit</button>
 				</div>
 			</div>
 
@@ -882,10 +889,9 @@
 		#right-controls {
 			display: none;
 		}
-		
-		.img-description{
+
+		.img-description {
 			-webkit-line-clamp: 5;
 		}
-
 	}
 </style>
