@@ -873,4 +873,19 @@
 			text-align: left;
 		}
 	}
+
+	@media (max-width: 800px) {
+		#ui {
+			padding: 18px 20px 24px;
+		}
+
+		#right-controls {
+			display: none;
+		}
+		
+		.img-description{
+			-webkit-line-clamp: 5;
+		}
+
+	}
 </style>
